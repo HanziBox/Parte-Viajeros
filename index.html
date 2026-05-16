@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Obligatorio de Viajeros / Guest Registration</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; margin: 0; }
+        .container { max-width: 600px; background: #fff; margin: 20px auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
+        .subtitle { text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 15px; }
+        
+        /* Estilos del Acordeón de Privacidad */
+        .privacy-accordion { background-color: #eef2f5; border-left: 4px solid #3498db; margin-bottom: 25px; border-radius: 0 4px 4px 0; }
+        .accordion-header { padding: 10px 15px; font-size: 13px; font-weight: bold; color: #2c3e50; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        .accordion-header::after { content: '▼'; font-size: 10px; color: #7f8c8d; transition: transform 0.3s; }
+        .accordion-header.active::after { transform: rotate(180deg); }
+        .accordion-content { padding: 0 15px; display: none; font-size: 12.5px; color: #555; border-top: 1px solid #e2e8f0; background-color: #fff; }
+        .accordion-content ul { margin: 8px 0; padding-left: 20px; }
+        .accordion-content li { margin-bottom: 6px; }
+        .lang-section { padding: 10px 0; }
+        .lang-section:first-child { border-bottom: 1px dashed #cbd5e1; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #34495e; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 15px; background-color: #fafafa; }
+        input:focus, select:focus { outline: none; border-color: #2ecc71; background-color: #fff; }
+        .row { display: flex; gap: 15px; }
+        .row .form-group { flex: 1; }
+        .legal-text { font-size: 11px; color: #7f8c8d; text-align: justify; border-top: 1px solid #eee; padding-top: 15px; margin-top: 30px; }
+        button { width: 100%; padding: 12px; background-color: #2ecc71; border: none; border-radius: 4px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #27ae60; }
+        #mensaje-exito { display: none; background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; text-align: center; font-weight: bold; margin-bottom: 20px; }
+        @media (max-width: 480px) { .row { flex-direction: column; gap: 0; } body { padding: 10px; } .container { padding: 15px; } }
+
+        /* Estilos para el Modal de Confirmación */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; padding: 10px; box-sizing: border-box; }
+        .modal-content { background-color: #fff; margin: 30px auto; padding: 25px; border-radius: 8px; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .modal h3 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #2ecc71; padding-bottom: 10px; }
+        .review-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        .review-table td { padding: 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+        .review-table td:first-child { font-weight: bold; color: #7f8c8d; width: 40%; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-confirmar { background-color: #2ecc71; flex: 2; }
+        .btn-confirmar:hover { background-color: #27ae60; }
+        .btn-editar { background-color: #e74c3c; flex: 1; }
+        .btn-editar:hover { background-color: #c0392b; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="mensaje-exito">¡Registro enviado correctamente! Muchas gracias. / Form submitted successfully!</div>
+    
+    <form id="formulario-viajeros">
+        <h2>Registro de Viajeros</h2>
+        <div class="subtitle">Parte oficial de entrada / Guest Registration Form</div>
+
+        <!-- ACORDEÓN DE PRIVACIDAD Y SEGURIDAD -->
+        <div class="privacy-accordion">
+            <div class="accordion-header" id="accordion-toggle">
+                🔒 Seguridad y Privacidad de tus datos / Data Security & Privacy INFO
+            </div>
+            <div class="accordion-content" id="accordion-content">
+                <!-- Español -->
+                <div class="lang-section">
+                    <strong>Tu seguridad y privacidad son nuestra prioridad</strong><br>
+                    Para cumplir con la legislación española (RD 933/2021), debemos registrar a los viajeros antes de su llegada. Tu información se protege así:
+                    <ul>
+                        <li><strong>Circuito 100% privado:</strong> Este formulario es propio. Tus datos viajan cifrados directamente a nuestro correo seguro, sin intermediarios comerciales.</li>
+                        <li><strong>Sin fines comerciales:</strong> Solo se recopilan para el registro obligatorio ante las Autoridades de Seguridad (Policía/Guardia Civil). Nunca se usarán para publicidad.</li>
+                        <li><strong>Conservación limitada:</strong> Se guardan bajo estricta confidencialidad (RGPD) y se eliminarán definitivamente tras cumplir el plazo legal.</li>
+                    </ul>
+                </div>
+                <!-- Inglés -->
+                <div class="lang-section">
+                    <strong>Your Security and Privacy Are Our Priority</strong><br>
+                    To comply with Spanish law (RD 933/2021), we must register all guests prior to arrival. Your information is protected as follows:
+                    <ul>
+                        <li><strong>100% Private Loop:</strong> This form belongs strictly to us. Your data is encrypted and sent directly to our secure email without commercial third parties.</li>
+                        <li><strong>No Commercial Use:</strong> Data is collected solely for mandatory registration with State Security Forces. We will never use it for advertising.</li>
+                        <li><strong>Secure Retention:</strong> Stored under strict confidentiality (GDPR), it will be permanently deleted once the legal retention period expires.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CAMPOS DEL FORMULARIO -->
+        <div class="form-group">
+            <label>Nombre (First Name): *</label>
+            <input type="text" name="Nombre" required>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Primer Apellido: *</label>
+                <input type="text" name="Primer_Apellido" required>
+            </div>
+            <div class="form-group">
+                <label>Segundo Apellido:</label>
+                <input type="text" name="Segundo_Apellido" placeholder="Si procede">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Sexo: *</label>
+                <select name="Sexo" required>
+                    <option value="">Seleccione...</option>
+                    <option value="F">Femenino (F)</option>
+                    <option value="M">Masculino (M)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Fecha de Nacimiento: *</label>
+                <input type="date" name="Fecha_Nacimiento" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>País de Nacionalidad: *</label>
+            <input type="text" name="Nacionalidad" required>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Tipo de Documento: *</label>
+                <select name="Tipo_Documento" required>
+                    <option value="DNI">DNI (España)</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Carta de Identidad">Carta de identidad comunitaria</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nº Documento / Pasaporte: *</label>
+                <input type="text" name="Numero_Documento" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Fecha Expedición Doc: *</label>
+                <input type="date" name="Fecha_Expedicion_Documento" required>
+            </div>
+<div class="form-group">
+    <label>Nº Soporte (Solo DNI español):</label>
+    <input type="text" name="Numero_Soporte" placeholder="Ej: AAA000123 / IDESP999999">
+    <small style="display: block; font-size: 11px; color: #7f8c8d; margin-top: 4px; line-height: 1.2;">
+        * Se encuentra en el frontal del DNI, arriba a la derecha (3 letras y 6 números). / Found on the front of the Spanish ID, top right.
+    </small>
+</div>
+        </div>
+
+        <div class="form-group">
+            <label>Dirección de Residencia Habitual: *</label>
+            <input type="text" name="Direccion_Habitual" required>
+        </div>
+
+        <div class="form-group">
+            <label>Teléfono de Contacto: *</label>
+            <input type="tel" name="Telefono" required>
+        </div>
+
+        <div class="legal-text">
+            <strong>Información básica sobre protección de datos:</strong> Los datos personales facilitados serán tratados por el propietario/gestor del alojamiento con la única finalidad de dar cumplimiento a la obligación legal de registro de viajeros y seguridad ciudadana, conforme al Real Decreto 933/2021, de 26 de octubre. Los datos se conservarán durante el plazo legal establecido por la normativa de seguridad aplicable y no serán cedidos a terceros salvo obligación legal (Fuerzas y Cuerpos de Seguridad del Estado). Puede ejercer sus derechos de acceso, rectificación y supresión dirigiéndose al titular del alojamiento.
+        </div>
+
+        <button type="button" id="btn-revisar">Verificar Datos / Review Form</button>
+    </form>
+</div>
+
+<!-- Ventana Emergente de Confirmación (Modal) -->
+<div id="modal-confirmacion" class="modal">
+    <div class="modal-content">
+        <h3>Confirmar Datos / Confirm Details</h3>
+        <p style="font-size: 14px; color: #555;">Por favor, revise que la información coincide exactamente con su documento de identidad:</p>
+        
+        <table class="review-table" id="tabla-resumen"></table>
+
+        <div class="modal-buttons">
+            <button type="button" class="btn-editar" id="btn-cerrar-modal">Modificar</button>
+            <button type="button" class="btn-confirmar" id="btn-enviar-final">Confirmar y Enviar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const URL_CONECTOR = "https://script.google.com/macros/s/AKfycbzPWVx3TQHt_cwXGjKb3cQNVL-Y3qtkX8ut_uctftg-rODWcKxdLizJGkVY-rlfAVNYwg/exec";
+
+    // Lógica para abrir/cerrar el acordeón de privacidad
+    const accToggle = document.getElementById('accordion-toggle');
+    const accContent = document.getElementById('accordion-content');
+    
+    accToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        if (accContent.style.display === "block") {
+            accContent.style.display = "none";
+        } else {
+            accContent.style.display = "block";
+        }
+    });
+
+    // Lógica del Formulario y Ventana de Confirmación
+    const formulario = document.getElementById('formulario-viajeros');
+    const modal = document.getElementById('modal-confirmacion');
+    const btnRevisar = document.getElementById('btn-revisar');
+    const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+    const btnEnviarFinal = document.getElementById('btn-enviar-final');
+    const tablaResumen = document.getElementById('tabla-resumen');
+
+    btnRevisar.addEventListener('click', function() {
+        if (formulario.checkValidity()) {
+            tablaResumen.innerHTML = "";
+            const formData = new FormData(formulario);
+            
+            formData.forEach((valor, llave) => {
+                const nombreLimpio = llave.replace(/_/g, " ");
+                const fila = `<tr><td>${nombreLimpio}:</td><td>${valor || '---'}</td></tr>`;
+                tablaResumen.innerHTML += fila;
+            });
+            
+            modal.style.display = "block";
+        } else {
+            formulario.reportValidity();
+        }
+    });
+
+    btnCerrarModal.addEventListener('click', function() {
+        modal.style.display = "none";
+    });
+
+    btnEnviarFinal.addEventListener('click', function() {
+        btnEnviarFinal.disabled = true;
+        btnEnviarFinal.innerText = "Enviando...";
+        
+        const formData = new FormData(formulario);
+        
+        fetch(URL_CONECTOR, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        })
+        .then(() => {
+            modal.style.display = "none";
+            formulario.reset();
+            document.getElementById('mensaje-exito').style.display = 'block';
+            btnEnviarFinal.disabled = false;
+            btnEnviarFinal.innerText = "Confirmar y Enviar";
+            window.scrollTo(0, 0);
+        })
+        .catch(error => {
+            alert('Hubo un error al enviar. Por favor, inténtelo de nuevo.');
+            btnEnviarFinal.disabled = false;
+            btnEnviarFinal.innerText = "Confirmar y Enviar";
+        });
+    });
+</script>
+
+</body>
+</html>
